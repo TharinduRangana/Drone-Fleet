@@ -19,9 +19,9 @@ public class MedicationServiceImpl implements MedicationService {
     @Autowired
     private MedicationRepository medicationRepository;
 
-    public RegisterMedicationResponse addNewMedicine(String medicine, MultipartFile image) throws IOException {
+    public RegisterMedicationResponse addNewMedicine(String name,Double weight, String code, MultipartFile image) throws IOException {
 
-        RegisterMedicineRequest request = convertIntoAddMedicineRequest(medicine);
+        RegisterMedicineRequest request = new RegisterMedicineRequest(name, weight, code);
         Medication medication = convertToMedicationObject(request, image);
         Medication savedMedication = medicationRepository.save(medication);
         return RegisterMedicationResponse.builder()
@@ -32,18 +32,6 @@ public class MedicationServiceImpl implements MedicationService {
                 .image(savedMedication.getImage())
                 .build();
 
-    }
-
-    private RegisterMedicineRequest convertIntoAddMedicineRequest(String medicine) {
-
-        RegisterMedicineRequest request = new RegisterMedicineRequest();
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            request = objectMapper.readValue(medicine, RegisterMedicineRequest.class);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return request;
     }
 
     private Medication convertToMedicationObject(RegisterMedicineRequest request, MultipartFile image) throws IOException {

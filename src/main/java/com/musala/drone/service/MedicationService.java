@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface MedicationService {
 
-    public RegisterMedicationResponse addNewMedicine(String medicine, MultipartFile image) throws IOException;
+    public RegisterMedicationResponse addNewMedicine(String name,Double weight, String code, MultipartFile image) throws IOException;
 
 }
