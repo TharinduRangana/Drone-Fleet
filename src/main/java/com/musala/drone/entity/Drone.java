@@ -32,7 +32,7 @@ public class Drone {
     private int weightLimit;
 
 
-    @Column(name = "droneBatter")
+    @Column(name = "droneBatteryCapacity")
     private double batteryCapacity;
 
     @Column(name = "droneState")
