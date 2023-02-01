@@ -1,6 +1,8 @@
 package com.musala.drone.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +12,15 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Medication {
+    public Medication(String name, double weight, String code, byte[] image) {
+        this.name = name;
+        this.weight = weight;
+        this.code = code;
+        this.image = image;
+    }
 
     @Id
     @GeneratedValue(generator = "Medication_gen", strategy = GenerationType.AUTO)

@@ -24,6 +24,8 @@ public interface ErrorMessageConstant {
             String INCORRECT_MEDICATION_WEIGHT ="Incorrect Medication Weight!";
 
             String INVALID_MEDICATION_CODE = "Invalid Medication Code!";
+
+            String MEDICATION_ID_CANNOT_BE_NULL = "Medication ID Cannot Be Null!";
         }
     }
 }
