@@ -20,6 +20,7 @@
 
   <h2>Description</h2>
   <p> This application is used to mange drone functionalities such as registering a drone, adding medicine, load medicine etc. And this application will also logged the Drone battery levels. </p>
+  <b>Please refere swagger to identify the request body & path parameters for every endpoint</b>
   
   <h2>Assumptions</h2>
   <ul>
@@ -30,5 +31,6 @@
   <li>Once drone is reached to the max weight limit, it will be turned into LOADED state</li>
   <li>Medication weight when adding medications to the drone cannot be less than 0</li>
   <li>Weight of medication should given in grams (only double value, No strings)</li>
+  <li>/drone/loading/{droneId} endpoint is using only to add medications to the drone</li>
   <li>Get available drones for loading: assuming loading state drones also availble for loading</li>
 </ul>
