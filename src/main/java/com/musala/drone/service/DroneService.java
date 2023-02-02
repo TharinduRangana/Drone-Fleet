@@ -10,4 +10,6 @@ public interface DroneService {
 
     public List<DroneResponse> getAvailableDronesForLoading();
 
+    public DroneResponse getBatteryLevelOfDrone(int droneId);
+
 }

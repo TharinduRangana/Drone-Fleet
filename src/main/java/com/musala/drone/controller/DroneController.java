@@ -34,6 +34,11 @@ public class DroneController {
         return new ResponseEntity<>(droneService.getAvailableDronesForLoading(), HttpStatus.OK);
     }
 
+    @GetMapping("/{droneId}/battery")
+    public ResponseEntity<?> getBatteryLevelOfDrone(@PathVariable int droneId) {
+        return new ResponseEntity<>(droneService.getBatteryLevelOfDrone(droneId).getBatteryCapacity(), HttpStatus.OK);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public Map<String, String> handleValidationExceptions(

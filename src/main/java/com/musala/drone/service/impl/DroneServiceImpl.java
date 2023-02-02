@@ -4,6 +4,7 @@ import com.musala.drone.domain.request.RegisterDroneRequest;
 import com.musala.drone.domain.response.DroneResponse;
 import com.musala.drone.entity.Drone;
 import com.musala.drone.entity.enums.DroneStateEnum;
+import com.musala.drone.infrastructure.exceptions.DroneNotAvailableException;
 import com.musala.drone.repository.DroneRepository;
 import com.musala.drone.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DroneServiceImpl implements DroneService {
@@ -57,5 +59,22 @@ public class DroneServiceImpl implements DroneService {
             response.add(droneResponse);
         });
         return response;
+    }
+
+    public DroneResponse getBatteryLevelOfDrone(int droneId) {
+        Optional<Drone> optionalSelectedDrone = droneRepository.findById(droneId);
+        if (optionalSelectedDrone.isPresent()) {
+            Drone drone = optionalSelectedDrone.get();
+            return DroneResponse.builder()
+                    .id(drone.getId())
+                    .model(drone.getModel())
+                    .state(drone.getState())
+                    .batteryCapacity(drone.getBatteryCapacity())
+                    .serialNumber(drone.getSerialNumber())
+                    .weightLimit(drone.getWeightLimit())
+                    .build();
+        } else {
+            throw new DroneNotAvailableException("Requested Drone Is Not Available At This Moment!");
+        }
     }
 }
