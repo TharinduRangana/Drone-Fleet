@@ -120,9 +120,6 @@ public class MedicationServiceImpl implements MedicationService {
             });
 
             Set<Medication> keys = loadedMedicationMap.keySet();
-            for (Medication key : keys) {
-                System.out.println(key.getCode() +": "+loadedMedicationMap.get(key));
-            }
 
             DroneMedicationDetails response = new DroneMedicationDetails();
             response.setDroneId(drone.getId());
@@ -132,7 +129,6 @@ public class MedicationServiceImpl implements MedicationService {
             List<LoadedMedicationDetails> droneMedicationDetailList = new ArrayList<>();
 
             for (Medication key : keys) {
-                System.out.println(key.getCode() +": "+loadedMedicationMap.get(key));
                 LoadedMedicationDetails details = new LoadedMedicationDetails();
                 details.setMedicationCode(key.getCode());
                 details.setMedicationName(key.getName());

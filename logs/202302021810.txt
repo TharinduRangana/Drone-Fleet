@@ -1,0 +1,4 @@
+drone details:Drone Id: 1, Drone Serial Number: Yw9npGR1rc, Battery Level: 85.0
+drone details:Drone Id: 2, Drone Serial Number: JdfIVdadTq, Battery Level: 70.0
+drone details:Drone Id: 3, Drone Serial Number: Gmkzte1op1, Battery Level: 70.0
+drone details:Drone Id: 4, Drone Serial Number: kdJqZQk0wd, Battery Level: 100.0

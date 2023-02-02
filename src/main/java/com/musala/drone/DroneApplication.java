@@ -65,12 +65,10 @@ public class DroneApplication implements CommandLineRunner {
 
 	private void addMedicationsWhenStarting() throws IOException {
 		File file = ResourceUtils.getFile("classpath:medi.jpg");
-		System.out.println("file name: " +file.getName());
 		FileInputStream fl = new FileInputStream(file);
 		byte[] arr = new byte[(int)file.length()];
 		fl.read(arr);
 		fl.close();
-		System.out.print(Arrays.toString(arr));
 		Medication medicA = new Medication("Medi A", 400.0, "MEDIC_A", ImageUtility.compressImage(arr));
 		Medication medicB = new Medication("Medi B", 250.50, "MEDIC_B", ImageUtility.compressImage(arr));
 		Medication medicC = new Medication("Medi C", 380.90, "MEDIC_C", ImageUtility.compressImage(arr));

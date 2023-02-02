@@ -63,7 +63,6 @@ public class LoadingMedicationController {
             MethodArgumentNotValidException ex) {
         ArrayList<String> errorList = new ArrayList<String>();
         ex.getAllErrors().forEach((error)->{
-            System.out.println(error);
             errorList.add(error.getDefaultMessage());
         });
         Map<String, Object> errors = new HashMap<>();
