@@ -29,6 +29,11 @@ public class DroneController {
         return new ResponseEntity<>(droneService.registerDrone(request), HttpStatus.CREATED);
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<?> getAvailableDronesForLoading() {
+        return new ResponseEntity<>(droneService.getAvailableDronesForLoading(), HttpStatus.OK);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public Map<String, String> handleValidationExceptions(

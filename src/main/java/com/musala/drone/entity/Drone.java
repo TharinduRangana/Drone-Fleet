@@ -19,15 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Drone {
 
-    public Drone(String serialNumber, DroneModelEnum model, int weightLimit, double batteryCapacity, DroneStateEnum state, double loadedWeight) {
-        this.serialNumber = serialNumber;
-        this.model = model;
-        this.weightLimit = weightLimit;
-        this.batteryCapacity = batteryCapacity;
-        this.state = state;
-        this.loadedWeight = loadedWeight;
-    }
-
     @Id
     @GeneratedValue(generator = "drone_gen", strategy = GenerationType.AUTO)
     @SequenceGenerator(name = "drone_gen",sequenceName = "drone_seq", initialValue = 1,allocationSize = 100)
@@ -54,4 +45,14 @@ public class Drone {
 
     @Column(name = "loadedWeight")
     private double loadedWeight;
+
+
+    public Drone(String serialNumber, DroneModelEnum model, int weightLimit, double batteryCapacity, DroneStateEnum state, double loadedWeight) {
+        this.serialNumber = serialNumber;
+        this.model = model;
+        this.weightLimit = weightLimit;
+        this.batteryCapacity = batteryCapacity;
+        this.state = state;
+        this.loadedWeight = loadedWeight;
+    }
 }

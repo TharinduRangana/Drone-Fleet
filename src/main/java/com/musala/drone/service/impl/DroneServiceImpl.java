@@ -3,10 +3,15 @@ package com.musala.drone.service.impl;
 import com.musala.drone.domain.request.RegisterDroneRequest;
 import com.musala.drone.domain.response.DroneResponse;
 import com.musala.drone.entity.Drone;
+import com.musala.drone.entity.enums.DroneStateEnum;
 import com.musala.drone.repository.DroneRepository;
 import com.musala.drone.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class DroneServiceImpl implements DroneService {
@@ -35,5 +40,22 @@ public class DroneServiceImpl implements DroneService {
         drone.setBatteryCapacity(request.getBatteryCapacity());
         drone.setState(request.getState());
         return drone;
+    }
+
+    public List<DroneResponse> getAvailableDronesForLoading() {
+        List<Drone> availableDrones = droneRepository.findAllByBatteryCapacityGreaterThanAndStateIn(25.0, Arrays.asList(DroneStateEnum.IDLE,DroneStateEnum.LOADING));
+        List<DroneResponse> response = new ArrayList<>();
+        availableDrones.stream().forEach(drone -> {
+            DroneResponse droneResponse = DroneResponse.builder()
+                            .id(drone.getId())
+                            .model(drone.getModel())
+                            .state(drone.getState())
+                            .batteryCapacity(drone.getBatteryCapacity())
+                            .serialNumber(drone.getSerialNumber())
+                            .weightLimit(drone.getWeightLimit())
+                            .build();
+            response.add(droneResponse);
+        });
+        return response;
     }
 }
