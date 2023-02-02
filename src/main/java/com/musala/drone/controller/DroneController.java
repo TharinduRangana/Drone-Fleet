@@ -1,7 +1,7 @@
 package com.musala.drone.controller;
 
 import com.musala.drone.domain.request.RegisterDroneRequest;
-import com.musala.drone.domain.response.RegisterDroneResponse;
+import com.musala.drone.domain.response.DroneResponse;
 import com.musala.drone.service.DroneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class DroneController {
     private DroneService droneService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterDroneResponse> registerDrone(@Valid @RequestBody(required = true) RegisterDroneRequest request) {
+    public ResponseEntity<DroneResponse> registerDrone(@Valid @RequestBody(required = true) RegisterDroneRequest request) {
         return new ResponseEntity<>(droneService.registerDrone(request), HttpStatus.CREATED);
     }
 

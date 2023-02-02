@@ -1,11 +1,10 @@
 package com.musala.drone.service.impl;
 
 import com.musala.drone.domain.request.loadingmedi.LoadingMedicationDetailsRequest;
-import com.musala.drone.domain.request.loadingmedi.LoadingMedicationRequest;
 import com.musala.drone.entity.Drone;
 import com.musala.drone.entity.Medication;
 import com.musala.drone.entity.enums.DroneStateEnum;
-import com.musala.drone.infrastructure.exceptions.DroneIsNotAvailableException;
+import com.musala.drone.infrastructure.exceptions.DroneNotAvailableException;
 import com.musala.drone.infrastructure.exceptions.RequestedMedicationsNotAvailable;
 import com.musala.drone.repository.DroneRepository;
 import com.musala.drone.repository.MedicationRepository;
@@ -31,7 +30,7 @@ public class LoadingMedicationValidationServiceImpl implements LoadingMedication
         if (drone.isPresent() && (drone.get().getState().equals(DroneStateEnum.IDLE) || (drone.get().getState().equals(DroneStateEnum.LOADING)))) {
             return drone.get();
         } else {
-            throw new DroneIsNotAvailableException("Requested Drone Is Not Available At This Moment!");
+            throw new DroneNotAvailableException("Requested Drone Is Not Available At This Moment!");
         }
     }
 

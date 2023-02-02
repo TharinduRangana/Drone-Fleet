@@ -2,13 +2,15 @@ package com.musala.drone.service.impl;
 
 import com.musala.drone.domain.request.RegisterMedicineRequest;
 import com.musala.drone.domain.request.loadingmedi.LoadingMedicationDetailsRequest;
-import com.musala.drone.domain.request.loadingmedi.LoadingMedicationRequest;
 import com.musala.drone.domain.response.RegisterMedicationResponse;
+import com.musala.drone.domain.response.loadedmedi.DroneMedicationDetails;
+import com.musala.drone.domain.response.loadedmedi.LoadedMedicationDetails;
 import com.musala.drone.entity.Drone;
 import com.musala.drone.entity.LoadedMedication;
 import com.musala.drone.entity.Medication;
 import com.musala.drone.entity.enums.DroneStateEnum;
 import com.musala.drone.infrastructure.exceptions.DroneBatteryLowException;
+import com.musala.drone.infrastructure.exceptions.DroneNotAvailableException;
 import com.musala.drone.infrastructure.exceptions.DroneWeightLimitExceededException;
 import com.musala.drone.infrastructure.util.ImageUtility;
 import com.musala.drone.repository.DroneRepository;
@@ -21,8 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MedicationServiceImpl implements MedicationService {
@@ -102,6 +103,50 @@ public class MedicationServiceImpl implements MedicationService {
         }
         droneRepository.save(selectedDrone);
         medicationRepository.saveAll(newMedicationList);
+    }
+
+    public DroneMedicationDetails getLoadedMedicationsToADrone(int droneId) {
+        Optional<Drone> optionalDrone = droneRepository.findById(droneId);
+        if (optionalDrone.isPresent()) {
+            Drone drone = optionalDrone.get();
+            List<LoadedMedication> loadedMedicationList = loadedMedicationRepository.findAllByDrone_IdAndIsDelivered(droneId, false);
+            LinkedHashMap<Medication, Double> loadedMedicationMap = new LinkedHashMap<>();
+            loadedMedicationList.stream().forEach(loadedMedication -> {
+                if (loadedMedicationMap.containsKey(loadedMedication.getMedication())) {
+                    loadedMedicationMap.put(loadedMedication.getMedication(), loadedMedicationMap.get(loadedMedication.getMedication()) + loadedMedication.getMedicationWeight());
+                } else {
+                    loadedMedicationMap.put(loadedMedication.getMedication(), loadedMedication.getMedicationWeight());
+                }
+            });
+
+            Set<Medication> keys = loadedMedicationMap.keySet();
+            for (Medication key : keys) {
+                System.out.println(key.getCode() +": "+loadedMedicationMap.get(key));
+            }
+
+            DroneMedicationDetails response = new DroneMedicationDetails();
+            response.setDroneId(drone.getId());
+            response.setDroneState(drone.getState());
+            response.setDroneSerialNumber(drone.getSerialNumber());
+
+            List<LoadedMedicationDetails> droneMedicationDetailList = new ArrayList<>();
+
+            for (Medication key : keys) {
+                System.out.println(key.getCode() +": "+loadedMedicationMap.get(key));
+                LoadedMedicationDetails details = new LoadedMedicationDetails();
+                details.setMedicationCode(key.getCode());
+                details.setMedicationName(key.getName());
+                details.setMedicationId(key.getId());
+                details.setMedicationWeight(loadedMedicationMap.get(key));
+                droneMedicationDetailList.add(details);
+            }
+            response.setMedicationList(droneMedicationDetailList);
+            return response;
+
+        } else {
+            throw new DroneNotAvailableException("Requested Drone Is Not Available!");
+        }
+//        return null;
     }
 
 }

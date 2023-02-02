@@ -2,6 +2,7 @@ package com.musala.drone.controller;
 
 import com.musala.drone.domain.request.loadingmedi.LoadingMedicationDetailsRequest;
 import com.musala.drone.domain.request.loadingmedi.LoadingMedicationRequest;
+import com.musala.drone.domain.response.loadedmedi.DroneMedicationDetails;
 import com.musala.drone.service.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,12 @@ public class LoadingMedicationController {
     public ResponseEntity<?> loadingDroneWithMedication(@PathVariable int droneId, @Valid @RequestBody List<LoadingMedicationDetailsRequest> request) {
         medicationService.loadingMedicationsToDrone(droneId, request);
         return new ResponseEntity<>("Medication Loaded Successfully",HttpStatus.OK);
+    }
+
+    @GetMapping("/{droneId}/loaded/medications")
+    public ResponseEntity<DroneMedicationDetails> getLoadedMedicationItems(@PathVariable int droneId) {
+
+        return new ResponseEntity<>(medicationService.getLoadedMedicationsToADrone(droneId),HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
