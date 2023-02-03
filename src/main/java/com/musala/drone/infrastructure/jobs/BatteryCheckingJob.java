@@ -21,7 +21,7 @@ public class BatteryCheckingJob {
     @Autowired
     private DroneRepository droneRepository;
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 43200000)
     public void executeBatteryCheckJob() {
         try {
             String fileName = new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
